@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { v4 as uuid } from "uuid";
 import Button from '@mui/material/Button';
-import Confirmation from "../ConfirmationBox/ConfirmationBox"
+import Confirmation from "../ConfirmationBox/ConfirmationBox";
+import DeleteIcon from '@mui/icons-material/Delete';
+import Link from '@mui/material/Link';
+import { ListItemText } from '@mui/material';
 
 //Default Values for cards
 const itemsFromBackend = [
-    { id: uuid(), FullName: "Ajith", PhoneNumber: "1111111", EmailID: "ajith@mail.com" },
-    { id: uuid(), FullName: "Kumar", PhoneNumber: "1111112", EmailID: "kumar@mail.com" },
+    { id: uuid(), FullName: "Ajith", PhoneNumber: "1111111", EmailID: "Ajith@gmail.com" },
+    { id: uuid(), FullName: "Kumar", PhoneNumber: "1111141", EmailID: "Kumar@gmail.com" },
 ];
 
 //Default Columns
@@ -71,24 +74,24 @@ export default function KanbanBoard(props) {
 
     const [columns, setColumns] = useState(columnsFromBackend);
     const [currentData, setcurrentData] = useState(null);
-    const [confirmMsg,setconfirmMsg] = useState("");
-    const [confirmBoxOpn,setconfirmBoxOpn] = useState(false);
-    const [currentClmID,setcurrentClmID] = useState('') ; 
-    const [currentIdx,setcurrentIdx] = useState('') ;
+    const [confirmMsg, setconfirmMsg] = useState("");
+    const [confirmBoxOpn, setconfirmBoxOpn] = useState(false);
+    const [currentClmID, setcurrentClmID] = useState('');
+    const [currentIdx, setcurrentIdx] = useState('');
 
     const onDeleteCard = (columnId, index) => {
-        setconfirmBoxOpn(true); 
+        setconfirmBoxOpn(true);
         setconfirmMsg("Are you Sure Want To Delete ?")
         setcurrentClmID(columnId);
-        setcurrentIdx (index);
+        setcurrentIdx(index);
     }
 
-    const onDeleteConfirmaton = ()=>{
+    const onDeleteConfirmaton = () => {
         let updatedData = columns[currentClmID].items.splice(currentIdx, 1);
         setColumns(columns);
         setcurrentData(updatedData);
-        setconfirmBoxOpn(false); 
-    }   
+        setconfirmBoxOpn(false);
+    }
 
     useEffect(() => {
         if (props.CandidateData) {
@@ -106,11 +109,11 @@ export default function KanbanBoard(props) {
             <Confirmation
                 open={confirmBoxOpn}
                 msg={confirmMsg}
-                onClose={()=>{
+                onClose={() => {
                     setconfirmBoxOpn(false);
                     setconfirmMsg("");
                     setcurrentClmID("");
-                    setcurrentIdx ("");
+                    setcurrentIdx("");
                 }}
                 onHandleSubmit={onDeleteConfirmaton}
             />
@@ -173,13 +176,19 @@ export default function KanbanBoard(props) {
                                                                         >
                                                                             <span style={{ fontWeight: "bold", textDecoration: "underline" }}>Name: {item.FullName}</span><br />
                                                                             <span style={{ fontSize: "11px" }}>Phone No: {item.PhoneNumber}</span><br />
-                                                                            <span style={{ fontSize: "11px" }}>Email ID: {item.EmailID}</span><br />
+                                                                            <span >
+                                                                                <ListItemText style={{ marginBottom: "-30px" }} primary={
+                                                                                    <Link href={item.EmailID} style={{ color: "white", fontSize: "11px", display: "-webkit-box" }} target="_blank" color="inherit" underline="hover">
+                                                                                        Email ID:{item.EmailID.length >= 12 ? item.EmailID.substring(0, 12) + ".." : item.EmailID}
+                                                                                    </Link>}
+                                                                                /></span><br />
                                                                             <Button onClick={() => onDeleteCard(columnId, index)} style={{
                                                                                 color: "white",
-                                                                                fontSize: "11px",
+                                                                                fontSize: "9.5px",
                                                                                 backgroundColor: "grey",
-                                                                                marginTop: "5px",                                                                               
-                                                                            }}>Delete</Button>
+                                                                                marginTop: "-21px",
+                                                                                float: "right"
+                                                                            }}>Delete<DeleteIcon style={{ height: "16px" }} /></Button>
                                                                         </div>
                                                                     );
                                                                 }}
