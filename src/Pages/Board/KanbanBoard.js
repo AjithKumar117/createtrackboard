@@ -8,6 +8,7 @@ const itemsFromBackend = [
     { id: uuid(), FullName: "Kumar", PhoneNumber: "222222" ,EmailID:"cheenu@mail.com"},
 ];
 
+//Default Columns
 const columnsFromBackend = {
     [1]: {
         name: "Applied Candidates",
