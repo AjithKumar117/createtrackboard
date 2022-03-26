@@ -111,7 +111,7 @@ export default function KanbanBoard(props) {
                                                         padding: 4,
                                                         width: 250,
                                                         height: 500,
-                                                        "overflow-y":"auto"
+                                                        overflowY:"auto"
                                                     }}
                                                 >
                                                     {column.items.map((item, index) => {
@@ -139,7 +139,7 @@ export default function KanbanBoard(props) {
                                                                                 ...provided.draggableProps.style
                                                                             }}
                                                                         >
-                                                                            <span style={{fontWeight:"bold","text-decoration":"underline"}}>Name: {item.FullName}</span><br />
+                                                                            <span style={{fontWeight:"bold",textDecoration:"underline"}}>Name: {item.FullName}</span><br />
                                                                             <span style={{fontSize:"11px"}}>Phone No: {item.PhoneNumber}</span><br />
                                                                             <span style={{fontSize:"11px"}}>Email ID: {item.EmailID}</span>
                                                                         </div>

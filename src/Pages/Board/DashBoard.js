@@ -28,10 +28,31 @@ export default function DashBoard(props){
   const [scroll] = React.useState('paper');
   const [IncomeData,setIncomeData] = React.useState(null);
   const [CandiData,setCandiData] = React.useState(null);
+  const [emptyField,setemptyField] = React.useState([]); 
+
+  const validatedata=(IncomeData)=>{
+    let arr = [];
+    if(!IncomeData.fullName){
+      arr.push("fullName");
+    }
+    if(!IncomeData.emailID){
+      arr.push("emailID");
+    }
+    if(!IncomeData.PhoneNumber){
+      arr.push("PhoneNumber")
+    }
+    return arr;
+  }
 
   const AddCandi = () => {
-    setCandiData(IncomeData)
-    setdialogBoxFlag(false)
+    let valid = validatedata(IncomeData);
+    if(valid.length===0){
+    setCandiData(IncomeData);
+    setdialogBoxFlag(false);
+    setemptyField([]);
+    }else{
+      setemptyField(valid)
+    }
   }
 
   const onCandidatechange=(value)=>{
@@ -45,9 +66,9 @@ export default function DashBoard(props){
         variant="contained"
         onClick={() => { setdialogBoxFlag(true) }}
         style={{
-          "margin-top": '15px',
-          'margin-left': '15px',
-          'margin-bottom': '15px'
+          marginTop: '15px',
+          marginLeft: '15px',
+          marginBottom: '15px'
         }}
         className={classes.Addbutton}>
         Add Candidate
@@ -56,11 +77,11 @@ export default function DashBoard(props){
       <Dialog maxWidth="lg" open={dialogBoxFlag}>
         <DialogContent id="classic-modal-slide-description"
           dividers={scroll === 'paper'}>
-          <AddCandidate onCandidatechange={onCandidatechange} openDialog={props.openDialog} />
+          <AddCandidate onCandidatechange={onCandidatechange} openDialog={props.openDialog} emptyField={emptyField} />
         </DialogContent>
         <DialogActions>
           <Button onClick={AddCandi} variant="outlined">Add</Button>
-          <Button onClick={() => { setdialogBoxFlag(false) }} variant="outlined">Close</Button>
+          <Button onClick={() => { setdialogBoxFlag(false);setemptyField([]); }} variant="outlined">Close</Button>
         </DialogActions>
       </Dialog>
       <KanbanBoard CandidateData={CandiData} />

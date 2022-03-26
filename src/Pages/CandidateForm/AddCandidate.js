@@ -18,7 +18,7 @@ export default function AddCandidate(props) {
 
     useEffect(() => {
         props.onCandidatechange(candidateData)
-    }, [candidateData])
+    })
 
     return (
         <div>
@@ -29,13 +29,25 @@ export default function AddCandidate(props) {
                 }}
                 noValidate
                 autoComplete="off"
-            >
+            >                
+                {
+                    props.emptyField.length!==0?(
+                        <span style={{
+                            color:"#d32f2f",
+                            display:"block",
+                            marginBottom:"10px"
+                        }}>*Please Fill Required Fields</span>
+                    ):<></>
+                }
+
                 <div>
                     <FormControl fullWidth={true} size='large'>
                         <TextField
                             id="outlined-basic"
                             fullWidth margin='dense'
                             label="Full Name"
+                            required
+                            error={props.emptyField.includes("fullName")?true:false}
                             variant="outlined"
                             value={candidateData.fullName}
                             onChange={(e) => {
@@ -46,6 +58,8 @@ export default function AddCandidate(props) {
                             id="outlined-basic"
                             fullWidth margin='dense'
                             label="Email Address"
+                            required
+                            error={props.emptyField.includes("emailID")?true:false}
                             variant="outlined"
                             value={candidateData.emailID}
                             onChange={(e) => {
@@ -56,6 +70,8 @@ export default function AddCandidate(props) {
                             id="outlined-basic"
                             fullWidth margin='dense'
                             label="Phone Number"
+                            required
+                            error={props.emptyField.includes("PhoneNumber")?true:false}
                             variant="outlined"
                             type="number"
                             value={candidateData.PhoneNumber}
