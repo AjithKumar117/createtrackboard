@@ -1,11 +1,13 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { v4 as uuid } from "uuid";
+import Button from '@mui/material/Button';
+import Confirmation from "../ConfirmationBox/ConfirmationBox"
 
 //Default Values for cards
 const itemsFromBackend = [
-    { id: uuid(), FullName: "Ajith", PhoneNumber: "1111111" ,EmailID:"ajith@mail.com"},
-    { id: uuid(), FullName: "Kumar", PhoneNumber: "1111112" ,EmailID:"kumar@mail.com"},
+    { id: uuid(), FullName: "Ajith", PhoneNumber: "1111111", EmailID: "ajith@mail.com" },
+    { id: uuid(), FullName: "Kumar", PhoneNumber: "1111112", EmailID: "kumar@mail.com" },
 ];
 
 //Default Columns
@@ -68,25 +70,54 @@ const onDragEnd = (result, columns, setColumns) => {
 export default function KanbanBoard(props) {
 
     const [columns, setColumns] = useState(columnsFromBackend);
-    const [currentData,setcurrentData] = useState(null);
+    const [currentData, setcurrentData] = useState(null);
+    const [confirmMsg,setconfirmMsg] = useState("");
+    const [confirmBoxOpn,setconfirmBoxOpn] = useState(false);
+    const [currentClmID,setcurrentClmID] = useState('') ; 
+    const [currentIdx,setcurrentIdx] = useState('') ;
 
-    useEffect(()=>{
-        if(props.CandidateData){
+    const onDeleteCard = (columnId, index) => {
+        setconfirmBoxOpn(true); 
+        setconfirmMsg("Are you Sure Want To Delete ?")
+        setcurrentClmID(columnId);
+        setcurrentIdx (index);
+    }
+
+    const onDeleteConfirmaton = ()=>{
+        let updatedData = columns[currentClmID].items.splice(currentIdx, 1);
+        setColumns(columns);
+        setcurrentData(updatedData);
+        setconfirmBoxOpn(false); 
+    }   
+
+    useEffect(() => {
+        if (props.CandidateData) {
             let arr = [];
             let candi = props.CandidateData;
-            arr = {id: uuid(), FullName:candi.fullName, PhoneNumber:candi.PhoneNumber,EmailID:candi.emailID}
+            arr = { id: uuid(), FullName: candi.fullName, PhoneNumber: candi.PhoneNumber, EmailID: candi.emailID }
             const AppliedCandidate = columns[1].items;
             AppliedCandidate.push(arr)
             setcurrentData(candi)
         }
-    },[props.CandidateData])
+    }, [props.CandidateData])
 
     return (
         <div>
+            <Confirmation
+                open={confirmBoxOpn}
+                msg={confirmMsg}
+                onClose={()=>{
+                    setconfirmBoxOpn(false);
+                    setconfirmMsg("");
+                    setcurrentClmID("");
+                    setcurrentIdx ("");
+                }}
+                onHandleSubmit={onDeleteConfirmaton}
+            />
             <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
                 <DragDropContext
                     onDragEnd={result => onDragEnd(result, columns, setColumns)}
-                 >
+                >
                     {Object.entries(columns).map(([columnId, column], index) => {
                         return (
                             <div
@@ -97,7 +128,7 @@ export default function KanbanBoard(props) {
                                 }}
                                 key={columnId}
                             >
-                                <h2 style={{ fontSize: "18px" }}>{column.name}</h2>
+                                <span style={{ fontSize: "18px" }}>{column.name}</span>
                                 <div style={{ margin: 8 }}>
                                     <Droppable droppableId={columnId} key={columnId}>
                                         {(provided, snapshot) => {
@@ -112,7 +143,7 @@ export default function KanbanBoard(props) {
                                                         padding: 4,
                                                         width: 250,
                                                         height: 500,
-                                                        overflowY:"auto"
+                                                        overflowY: "auto"
                                                     }}
                                                 >
                                                     {column.items.map((item, index) => {
@@ -120,11 +151,11 @@ export default function KanbanBoard(props) {
                                                             <Draggable
                                                                 key={item.id}
                                                                 draggableId={item.id}
-                                                                index={index}                                                                
-                                                                >
+                                                                index={index}
+                                                            >
                                                                 {(provided, snapshot) => {
                                                                     return (
-                                                                        <div                                                                          
+                                                                        <div
                                                                             ref={provided.innerRef}
                                                                             {...provided.draggableProps}
                                                                             {...provided.dragHandleProps}
@@ -140,9 +171,15 @@ export default function KanbanBoard(props) {
                                                                                 ...provided.draggableProps.style
                                                                             }}
                                                                         >
-                                                                            <span style={{fontWeight:"bold",textDecoration:"underline"}}>Name: {item.FullName}</span><br />
-                                                                            <span style={{fontSize:"11px"}}>Phone No: {item.PhoneNumber}</span><br />
-                                                                            <span style={{fontSize:"11px"}}>Email ID: {item.EmailID}</span>
+                                                                            <span style={{ fontWeight: "bold", textDecoration: "underline" }}>Name: {item.FullName}</span><br />
+                                                                            <span style={{ fontSize: "11px" }}>Phone No: {item.PhoneNumber}</span><br />
+                                                                            <span style={{ fontSize: "11px" }}>Email ID: {item.EmailID}</span><br />
+                                                                            <Button onClick={() => onDeleteCard(columnId, index)} style={{
+                                                                                color: "white",
+                                                                                fontSize: "11px",
+                                                                                backgroundColor: "grey",
+                                                                                marginTop: "5px",                                                                               
+                                                                            }}>Delete</Button>
                                                                         </div>
                                                                     );
                                                                 }}
