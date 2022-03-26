@@ -5,7 +5,7 @@ import { v4 as uuid } from "uuid";
 //Default Values for cards
 const itemsFromBackend = [
     { id: uuid(), FullName: "Ajith", PhoneNumber: "1111111" ,EmailID:"ajith@mail.com"},
-    { id: uuid(), FullName: "Kumar", PhoneNumber: "222222" ,EmailID:"cheenu@mail.com"},
+    { id: uuid(), FullName: "Kumar", PhoneNumber: "1111112" ,EmailID:"kumar@mail.com"},
 ];
 
 //Default Columns
