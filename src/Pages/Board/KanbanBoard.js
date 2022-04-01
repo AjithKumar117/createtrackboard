@@ -72,7 +72,6 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 export default function KanbanBoard(props) {
     let [columns, setColumns] = useState(columnsFromBackend);
-    //let [currentData, setcurrentData] = useState(null);
     const [confirmMsg, setconfirmMsg] = useState("");
     const [confirmBoxOpn, setconfirmBoxOpn] = useState(false);
     const [currentClmID, setcurrentClmID] = useState('');
@@ -90,7 +89,6 @@ export default function KanbanBoard(props) {
         props.onDltSearchUpdate(columns[currentClmID].items[currentIdx])
         columns[currentClmID].items.splice(currentIdx, 1);
         setColumns(columns);
-        //setcurrentData(updatedData);
         setconfirmBoxOpn(false);    
         toast.warn("Candidate Data Removed",{autoClose:2000})    
     }

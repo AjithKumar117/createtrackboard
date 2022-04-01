@@ -33,7 +33,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-export default function NavigationBar(props) {
+export default function Navibar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [placement, setPlacement] = React.useState();
@@ -49,7 +49,7 @@ export default function NavigationBar(props) {
       value = value.toLocaleLowerCase();
       if (val.includes(value)) { return { ele, index } }
     })
-    filtered = filtered.filter((ele, index) => { return typeof (ele) !== 'undefined' }); setsearchResult(filtered)
+    filtered = filtered.filter((ele) => { return typeof (ele) !== 'undefined' }); setsearchResult(filtered)
   }
 
   const handleClick = (newPlacement) => (event) => {

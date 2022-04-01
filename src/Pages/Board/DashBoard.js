@@ -29,7 +29,7 @@ export default function DashBoard(props){
 emailID: "ajith@mail.com", PhoneNumber: "11223344", jobDesignation: "Dev", experience: "1.6", currentCTC: "2", expectedCTC: "3.5",
 joinin:"yes" ,skills:"Dev",qualification:"PG", previousworkDetails:{companyname:"RamTech",position:"software Dev",reasonforleave:"",startdate:null,enddate:null}
 }]) 
-  const validatedata=(IncomeData)=>{
+  const validatedata=()=>{
     let arr = [];
     if(!IncomeData.fullName){arr.push("fullName");}
     if(!IncomeData.emailID){arr.push("emailID");}
@@ -48,7 +48,7 @@ joinin:"yes" ,skills:"Dev",qualification:"PG", previousworkDetails:{companyname:
   const onCandidatechange=(value)=>{setIncomeData(value)}
   const onsearchdataChange=(value)=>{setSearchData(value);}
   const onDeleteSearchUpdate=(value)=>{
-    let result=valueforSearch.filter((ele, index) => {
+    let result=valueforSearch.filter((ele) => {
       return ele.firstName !== value.firstName;
     }); setvalueforSearch(result);
   }
