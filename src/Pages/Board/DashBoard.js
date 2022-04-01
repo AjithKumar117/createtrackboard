@@ -37,7 +37,7 @@ joinin:"yes" ,skills:"Dev",qualification:"PG", previousworkDetails:{companyname:
     return arr;
   }
   const AddCandi = () => {
-    let valid = validatedata(IncomeData);
+    let valid = validatedata();
     if(valid.length===0){
     setCandiData(IncomeData);
     valueforSearch.push(IncomeData)
