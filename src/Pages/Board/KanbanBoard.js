@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { v4 as uuid } from "uuid";
 import Button from '@mui/material/Button';
-import Confirmation from "../ConfirmationBox/ConfirmationBox";
+import ConfirmationBox from "../ConfirmationBox/ConfirmationBox";
 import DialogBox from "../DialogBox/DialogBox"
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ToastContainer, toast } from 'react-toastify';import 'react-toastify/dist/ReactToastify.css';
@@ -72,7 +72,7 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 export default function KanbanBoard(props) {
     let [columns, setColumns] = useState(columnsFromBackend);
-    const [currentData, setcurrentData] = useState(null);
+    //let [currentData, setcurrentData] = useState(null);
     const [confirmMsg, setconfirmMsg] = useState("");
     const [confirmBoxOpn, setconfirmBoxOpn] = useState(false);
     const [currentClmID, setcurrentClmID] = useState('');
@@ -88,9 +88,9 @@ export default function KanbanBoard(props) {
     }
     const onDeleteConfirmaton = () => {
         props.onDltSearchUpdate(columns[currentClmID].items[currentIdx])
-        let updatedData = columns[currentClmID].items.splice(currentIdx, 1);
+        columns[currentClmID].items.splice(currentIdx, 1);
         setColumns(columns);
-        setcurrentData(updatedData);
+        //setcurrentData(updatedData);
         setconfirmBoxOpn(false);    
         toast.warn("Candidate Data Removed",{autoClose:2000})    
     }
@@ -104,7 +104,7 @@ export default function KanbanBoard(props) {
             }
             const AppliedCandidate = columns[1].items;
             AppliedCandidate.push(arr)
-            setcurrentData(candi)
+            setconfirmMsg(null)
         }
     }, [props.CandidateData, props.SearchValue])
 
@@ -112,7 +112,7 @@ export default function KanbanBoard(props) {
     return (
         <div>
             <ToastContainer />
-            <Confirmation
+            <ConfirmationBox
                 open={confirmBoxOpn}
                 msg={confirmMsg}
                 onClose={() => {
@@ -135,7 +135,7 @@ export default function KanbanBoard(props) {
                 <DragDropContext
                     onDragEnd={result => onDragEnd(result, columns, setColumns)}
                 >
-                    {Object.entries(columns).map(([columnId, column], index) => {
+                    {Object.entries(columns).map(([columnId, column]) => {
                         return (
                             <div
                                 style={{

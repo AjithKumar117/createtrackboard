@@ -10,7 +10,7 @@ import FormLabel from '@mui/material/FormLabel';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
-import qualificationValue from "./Formhelper"
+import qualificationValue from "./qualificationValue"
 export default function AddCandidate(props) {
 
     const [candidateData, setcandidateData] = useState({ 
@@ -20,7 +20,7 @@ export default function AddCandidate(props) {
     });
     useEffect(() => { props.onCandidatechange(candidateData) });
 
-    const qualificationval = qualificationValue.map((prop, key) => {
+    const qualificationval = qualificationValue.map((prop) => {
         return (
           <MenuItem
             value={prop.value}

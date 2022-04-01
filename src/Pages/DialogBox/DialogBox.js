@@ -60,10 +60,9 @@ export default function DialogBox(props) {
     const dateformat = (date) => {
         if(date){
             let day = date.getDate();
-            let month = date.getMonth();
+            let month = date.getMonth() + 1;
             let year = date.getFullYear();
-            let dateFormat = day + '/' + month + '/' + year
-            return dateFormat;
+            return day + '/' + month + '/' + year;            
         }
     }
 

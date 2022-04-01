@@ -33,7 +33,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-export default function TopNavBar(props) {
+export default function NavigationBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [placement, setPlacement] = React.useState();
@@ -82,7 +82,7 @@ export default function TopNavBar(props) {
               <Fade {...TransitionProps} timeout={350}>
                 <Paper>
                   <Typography sx={{ p: 2 }}>
-                    {searchResult.map((val, idx) => {
+                    {searchResult.map((val) => {
                       return (
                         <TableRow><TableCell align="left">Name :</TableCell><TableCell align="left">{val.ele.fullName}</TableCell><TableCell align="left"><Button style={{
                           color: "black",

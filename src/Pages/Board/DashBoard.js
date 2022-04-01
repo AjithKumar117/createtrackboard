@@ -12,7 +12,7 @@ import KanbanBoard from './KanbanBoard';import { ToastContainer, toast } from 'r
 const useStyles = makeStyles({
   flexGrow: {flex: '1'},
   button: {backgroundColor: '#3c52b2',color: '#fff',
-    '&:hover': {backgroundColor: '#fff', color: '#3c52b2'}
+    '&:hover': {backgroundColor: '#fff', color: '#fff'}
 }})
 export default function DashBoard(props){
   const classes = useStyles();
@@ -57,7 +57,7 @@ joinin:"yes" ,skills:"Dev",qualification:"PG", previousworkDetails:{companyname:
     <div> <ToastContainer />
       <AppBaTopNavBarr onsearchChange={onsearchdataChange} searchVal={valueforSearch}/>
       <Button
-        variant="contained"
+        variant="contained" className={classes.button}
         onClick={() => { setdialogBoxFlag(true) }}
         style={{marginTop: '15px',marginLeft: '15px',marginBottom: '15px'}}>
         Add Candidate

@@ -5,7 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
-function Confirmation(props) {
+function ConfirmationBox(props) {
     const { onClose, open, onHandleSubmit, msg } = props;
     const handleClose = () => {onClose();};
     const handleSubmit = (status) => {onHandleSubmit(status);};
@@ -35,4 +35,4 @@ function Confirmation(props) {
     );
 }
 
-export default Confirmation;
+export default ConfirmationBox;
