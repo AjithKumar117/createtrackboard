@@ -7,13 +7,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 function Confirmation(props) {
     const { onClose, open, onHandleSubmit, msg } = props;
-
-    const handleClose = () => {
-        onClose();
-    };
-    const handleSubmit = (status) => {
-        onHandleSubmit(status);
-    };
+    const handleClose = () => {onClose();};
+    const handleSubmit = (status) => {onHandleSubmit(status);};
 
     return (
         <div>
@@ -23,12 +18,8 @@ function Confirmation(props) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">
-                    {"Confirmation Alert"}
-                </DialogTitle>
-                <DialogContent>
-                    {msg}
-                </DialogContent>
+                <DialogTitle id="alert-dialog-title">{"Confirmation Alert"}</DialogTitle>
+                <DialogContent>{msg}</DialogContent>
                 <DialogActions>                    
                     <Button onClick={() => {
                         handleSubmit("approval");                        

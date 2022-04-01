@@ -3,17 +3,18 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { v4 as uuid } from "uuid";
 import Button from '@mui/material/Button';
 import Confirmation from "../ConfirmationBox/ConfirmationBox";
+import DialogBox from "../DialogBox/DialogBox"
 import DeleteIcon from '@mui/icons-material/Delete';
-import Link from '@mui/material/Link';
-import { ListItemText } from '@mui/material';
-
-//Default Values for cards
+import { ToastContainer, toast } from 'react-toastify';import 'react-toastify/dist/ReactToastify.css';
 const itemsFromBackend = [
-    { id: uuid(), FullName: "Ajith", PhoneNumber: "1111111", EmailID: "Ajith@gmail.com" },
-    { id: uuid(), FullName: "Kumar", PhoneNumber: "1111141", EmailID: "Kumar@gmail.com" },
-];
-
-//Default Columns
+    // { id: uuid(), fullName: "Ajith", gender: "male", dob: null, address: { doorno: "328", address1: "rice mill street", address2: "", city: "Trichy", state: "Tamil Nadu", zip: "620010" }, emailID: "yuvan@mail.com", PhoneNumber: "8870871527", jobDesignation: "dev", experience: "3", currentCTC: "2", expectedCTC: "4" }
+   { id: uuid(),fullName: "Ajith",gender: "male",dob:null, address:{doorno:"328",address1:"rice mill street",address2:"",city:"Trichy",state:"Tamil Nadu",zip:"620010"},
+        emailID: "ajith@mail.com", PhoneNumber: "11223344", jobDesignation: "Dev", experience: "1.5", currentCTC: "2", expectedCTC: "3.5",
+        joinin:"yes" ,skills:"Dev",qualification:"PG", previousworkDetails:{companyname:"RamTech",position:"software Dev",reasonforleave:"",startdate:null,enddate:null}
+   },{id: uuid(), fullName: "Kumar",gender: "male",dob:null, address:{doorno:"32/8",address1:"rice mill street",address2:"",city:"Trichy",state:"Tamil Nadu",zip:"620010"},
+   emailID: "ajith@mail.com", PhoneNumber: "11223344", jobDesignation: "Dev", experience: "1.6", currentCTC: "2", expectedCTC: "3.5",
+   joinin:"yes" ,skills:"Dev",qualification:"PG", previousworkDetails:{companyname:"RamTech",position:"software Dev",reasonforleave:"",startdate:null,enddate:null}
+   }];
 const columnsFromBackend = {
     [1]: {
         name: "Applied Candidates",
@@ -69,15 +70,15 @@ const onDragEnd = (result, columns, setColumns) => {
         });
     }
 };
-
 export default function KanbanBoard(props) {
-
-    const [columns, setColumns] = useState(columnsFromBackend);
+    let [columns, setColumns] = useState(columnsFromBackend);
     const [currentData, setcurrentData] = useState(null);
     const [confirmMsg, setconfirmMsg] = useState("");
     const [confirmBoxOpn, setconfirmBoxOpn] = useState(false);
     const [currentClmID, setcurrentClmID] = useState('');
     const [currentIdx, setcurrentIdx] = useState('');
+    const [Dialogopen, setDialogopen] = useState(false)
+    const [DialogContent, setDialogContent] = useState(null);
 
     const onDeleteCard = (columnId, index) => {
         setconfirmBoxOpn(true);
@@ -85,27 +86,32 @@ export default function KanbanBoard(props) {
         setcurrentClmID(columnId);
         setcurrentIdx(index);
     }
-
     const onDeleteConfirmaton = () => {
+        props.onDltSearchUpdate(columns[currentClmID].items[currentIdx])
         let updatedData = columns[currentClmID].items.splice(currentIdx, 1);
         setColumns(columns);
         setcurrentData(updatedData);
-        setconfirmBoxOpn(false);
+        setconfirmBoxOpn(false);    
+        toast.warn("Candidate Data Removed",{autoClose:2000})    
     }
-
     useEffect(() => {
         if (props.CandidateData) {
             let arr = [];
             let candi = props.CandidateData;
-            arr = { id: uuid(), FullName: candi.fullName, PhoneNumber: candi.PhoneNumber, EmailID: candi.emailID }
+            arr = {
+                id: uuid(), fullName: candi.fullName, gender: candi.gender, dob: candi.dob, address: candi.address, PhoneNumber: candi.PhoneNumber, emailID: candi.emailID, jobDesignation: candi.jobDesignation, experience: candi.experience, currentCTC: candi.currentCTC, expectedCTC: candi.expectedCTC,
+                joinin: candi.joinin, skills: candi.skills, qualification: candi.qualification, previousworkDetails: candi.previousworkDetails
+            }
             const AppliedCandidate = columns[1].items;
             AppliedCandidate.push(arr)
             setcurrentData(candi)
         }
-    }, [props.CandidateData])
+    }, [props.CandidateData, props.SearchValue])
+
 
     return (
         <div>
+            <ToastContainer />
             <Confirmation
                 open={confirmBoxOpn}
                 msg={confirmMsg}
@@ -116,6 +122,14 @@ export default function KanbanBoard(props) {
                     setcurrentIdx("");
                 }}
                 onHandleSubmit={onDeleteConfirmaton}
+            />
+            <DialogBox
+                open={Dialogopen}
+                Content={DialogContent}
+                onClose={() => {
+                    setDialogopen(false);
+                    setDialogContent("")
+                }}
             />
             <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
                 <DragDropContext
@@ -146,7 +160,7 @@ export default function KanbanBoard(props) {
                                                         padding: 4,
                                                         width: 250,
                                                         height: 500,
-                                                        overflowY: "auto"
+                                                        overflowY: "auto",
                                                     }}
                                                 >
                                                     {column.items.map((item, index) => {
@@ -164,7 +178,7 @@ export default function KanbanBoard(props) {
                                                                             {...provided.dragHandleProps}
                                                                             style={{
                                                                                 userSelect: "none",
-                                                                                padding: 16,
+                                                                                padding: 16,width:"218px",
                                                                                 margin: "0 0 8px 0",
                                                                                 minHeight: "68px",
                                                                                 backgroundColor: snapshot.isDragging
@@ -174,20 +188,19 @@ export default function KanbanBoard(props) {
                                                                                 ...provided.draggableProps.style
                                                                             }}
                                                                         >
-                                                                            <span style={{ fontWeight: "bold", textDecoration: "underline" }}>Name: {item.FullName}</span><br />
+                                                                            <span style={{ fontWeight: "bold", textDecoration: "underline" }}>Name: {item.fullName}</span><br />
                                                                             <span style={{ fontSize: "11px" }}>Phone No: {item.PhoneNumber}</span><br />
-                                                                            <span >
-                                                                                <ListItemText style={{ marginBottom: "-30px" }} primary={
-                                                                                    <Link href={item.EmailID} style={{ color: "white", fontSize: "11px", display: "-webkit-box" }} target="_blank" color="inherit" underline="hover">
-                                                                                        Email ID:{item.EmailID.length >= 12 ? item.EmailID.substring(0, 12) + ".." : item.EmailID}
-                                                                                    </Link>}
-                                                                                /></span><br />
-                                                                            <Button onClick={() => onDeleteCard(columnId, index)} style={{
+                                                                            <Button
+                                                                                onClick={() => {setDialogopen(true); setDialogContent(item);}}
+                                                                                style={{
+                                                                                    color: "white",fontSize: "11.5px", cursor: "pointer",
+                                                                                    opacity: "0.9",textDecoration: "underline",
+                                                                                }}
+                                                                            >View Details</Button>
+                                                                            <Button onClick={() => {onDeleteCard(columnId, index)}} style={{
                                                                                 color: "white",
                                                                                 fontSize: "9.5px",
-                                                                                backgroundColor: "grey",
-                                                                                marginTop: "-21px",
-                                                                                float: "right"
+                                                                                backgroundColor: "grey",marginLeft: "28px", cursor: "pointer",
                                                                             }}>Delete<DeleteIcon style={{ height: "16px" }} /></Button>
                                                                         </div>
                                                                     );
