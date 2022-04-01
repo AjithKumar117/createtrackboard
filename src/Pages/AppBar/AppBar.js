@@ -29,11 +29,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0), paddingLeft: `calc(1em + ${theme.spacing(4)})`, transition: theme.transitions.create('width'), width: '100%',
-    [theme.breakpoints.up('sm')]: { width: '12ch', '&:focus': { width: '20ch', } }
+    [theme.breakpoints.up('sm')]: { width: '17ch', '&:focus': { width: '20ch', } }
   }
 }));
 
-export default function Navibar(props) {
+export default function Apptopbar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [placement, setPlacement] = React.useState();

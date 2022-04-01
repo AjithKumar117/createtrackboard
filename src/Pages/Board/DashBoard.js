@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import AppBaTopNavBarr from '../AppBar/AppBar';
+import Apptopbar from '../AppBar/AppBar';
 import { makeStyles } from "@material-ui/core/styles";
 import Button from '@mui/material/Button';
 import Dialog from "@material-ui/core/Dialog";
@@ -49,17 +49,17 @@ joinin:"yes" ,skills:"Dev",qualification:"PG", previousworkDetails:{companyname:
   const onsearchdataChange=(value)=>{setSearchData(value);}
   const onDeleteSearchUpdate=(value)=>{
     let result=valueforSearch.filter((ele) => {
-      return ele.firstName !== value.firstName;
+      return ele.fullName !== value.fullName;
     }); setvalueforSearch(result);
   }
 
   return (
     <div> <ToastContainer />
-      <AppBaTopNavBarr onsearchChange={onsearchdataChange} searchVal={valueforSearch}/>
+      <Apptopbar onsearchChange={onsearchdataChange} searchVal={valueforSearch}/>
       <Button
         variant="contained" className={classes.button}
         onClick={() => { setdialogBoxFlag(true) }}
-        style={{marginTop: '15px',marginLeft: '15px',marginBottom: '15px'}}>
+        style={{marginTop: '15px',marginLeft: '15px',marginBottom: '15px',fontWeight:"bold"}}>
         Add Candidate
       </Button>
       <Dialog maxWidth="lg" open={dialogBoxFlag}>

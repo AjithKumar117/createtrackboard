@@ -168,22 +168,22 @@ export default function KanbanBoard(props) {
                                                                 draggableId={item.id}
                                                                 index={index}
                                                             >
-                                                                {(provided, snapshot) => {
+                                                                {(provide, snapsht) => {
                                                                     return (
                                                                         <div
-                                                                            ref={provided.innerRef}
-                                                                            {...provided.draggableProps}
-                                                                            {...provided.dragHandleProps}
+                                                                            ref={provide.innerRef}
+                                                                            {...provide.draggableProps}
+                                                                            {...provide.dragHandleProps}
                                                                             style={{
                                                                                 userSelect: "none",
                                                                                 padding: 16,width:"218px",
                                                                                 margin: "0 0 8px 0",
                                                                                 minHeight: "68px",
-                                                                                backgroundColor: snapshot.isDragging
+                                                                                backgroundColor: snapsht.isDragging
                                                                                     ? "#263B4A"
                                                                                     : "#1976d2",
                                                                                 color: "white",
-                                                                                ...provided.draggableProps.style
+                                                                                ...provide.draggableProps.style
                                                                             }}
                                                                         >
                                                                             <span style={{ fontWeight: "bold", textDecoration: "underline" }}>Name: {item.fullName}</span><br />
